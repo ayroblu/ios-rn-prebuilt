@@ -16,23 +16,23 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - id: my_release
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          repository: ${{ github.repository }}
-          excludes: prerelease, draft
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: madhead/semver-utils@latest
-        id: version
-        with:
-          version: ${{ steps.my_release.outputs.release }}
+      # - id: my_release
+      #   uses: pozetroninc/github-action-get-latest-release@master
+      #   with:
+      #     repository: ${{ github.repository }}
+      #     excludes: prerelease, draft
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #
+      # - uses: madhead/semver-utils@latest
+      #   id: version
+      #   with:
+      #     version: ${{ steps.my_release.outputs.release }}
 
       - id: check_versions
         name: Terminate if version is not greater
         run: |
           echo "React Native version: ${{ env.REACT_NATIVE_VERSION }}"
-          echo "Current version: ${{ steps.my_release.outputs.release }}"
+          # echo "Current version: ${{ steps.my_release.outputs.release }}"
           if [[ "${{ steps.compare_versions.outputs.comparison-result }}" == ">" ]]; then
             echo "::set-output name=bump::minor"
           elif [[ "${{ steps.compare_versions.outputs.comparison-result }}" == "==" ]]; then
@@ -54,8 +54,8 @@ jobs:
         run: |
           echo "Bump: ${{ steps.check_versions.outputs.bump }}"
           echo "Target version: ${{ steps.target_version.outputs.target_version }}"
-          echo "My latest Release: ${{ steps.my_release.outputs.release }}"
-          echo "My latest RN version: ${{ steps.my_release.outputs.description }}"
+          # echo "My latest Release: ${{ steps.my_release.outputs.release }}"
+          # echo "My latest RN version: ${{ steps.my_release.outputs.description }}"
           echo "RN latest version: ${{ env.REACT_NATIVE_VERSION }}"
           echo "Comparison result: ${{ steps.compare_versions.outputs.comparison-result }}"
 
